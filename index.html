@@ -78,6 +78,19 @@ td.n{white-space:nowrap;font-weight:600}
 .plan li{font-family:var(--sans);font-size:14px;line-height:1.6;padding:3px 0;font-variant-numeric:tabular-nums}
 .plan li b{display:inline-block;min-width:74px;font-weight:600;color:var(--accent)}
 .plan li .tt{line-height:1.55;margin-top:2px}
+.plan-detail{border-top:1px dashed var(--rule);padding:16px 14px 18px;font-family:var(--sans);font-size:13.5px;line-height:1.7}
+.plan-group + .plan-group{margin-top:20px;padding-top:18px;border-top:1px solid var(--shade2)}
+.plan-group h3{margin:0 0 7px;color:var(--accent);font-size:15px;font-weight:700}
+.plan-group p{margin:0 0 8px}
+.example-label{margin-top:10px!important;font-size:12px;color:var(--mid)}
+.plan-examples{display:grid;gap:6px}
+.plan-example{display:flex;justify-content:space-between;gap:12px;padding:7px 10px;background:var(--shade);font-size:13px}
+.plan-example b{white-space:nowrap;color:var(--accent)}
+.course-info{display:grid;grid-template-columns:88px 1fr;gap:6px 10px;margin:0}
+.course-info dt{color:var(--mid);font-size:12px;font-weight:400}
+.course-info dd{margin:0}
+.course-check{margin-top:13px!important;padding:10px 12px;background:var(--shade);border-left:2px solid var(--accent);font-weight:400;color:var(--ink)}
+@media (max-width:460px){.plan-example{display:block}.plan-example b{display:block;margin-top:1px}.course-info{grid-template-columns:1fr}.course-info dd + dt{margin-top:5px}}
 .subj{margin:0 0 6px;padding:0 2px;font-family:var(--sans);font-size:13.5px;line-height:1.7}
 .subj dt{font-weight:300;font-size:12px;color:var(--mid);letter-spacing:.04em;margin-bottom:2px}
 .subj dd{margin:0}
@@ -236,12 +249,34 @@ footer b{color:var(--ink);font-weight:700}
         <li><b>평일 2회</b> 화 · 수 · 목 · 금 중 2일 선택, 18:30 – 20:30</li>
         <li><b>토요일 1회</b> 14:00 – 16:00 또는 16:00 – 18:00 중 선택</li>
       </ul>
+      <div class="plan-detail">
+        <div class="plan-group">
+          <h3>과목 선택</h3>
+          <p>학교 수학 과목과 수능 대비 중 한 학기에 최대 2과목까지 지도합니다. 수능 대비는 별도 1과목으로 계산합니다.</p>
+          <p class="example-label">예시)</p>
+          <div class="plan-examples">
+            <div class="plan-example"><span>확률과 통계만 수강</span><b>1과목 · 월 40만 원</b></div>
+            <div class="plan-example"><span>수능 대비만 수강</span><b>1과목 · 월 40만 원</b></div>
+            <div class="plan-example"><span>확률과 통계 + 수능 대비</span><b>2과목 · 월 45만 원</b></div>
+          </div>
+        </div>
+        <div class="plan-group">
+          <h3>수능 대비 수업</h3>
+          <dl class="course-info">
+            <dt>범위</dt>
+            <dd>대수 · 미적분 · 확률과 통계</dd>
+            <dt>교재 및 수업</dt>
+            <dd>한완수 교재로 수업합니다. 수업 시간에는 한완기와 이해원 N제로 문제 풀이를 진행합니다. 7월 이후에는 이해원 모의고사로 실전 대비를 합니다.</dd>
+          </dl>
+          <p class="course-check">별도의 기본 개념 강의는 진행하지 않습니다. 질문 위주의 수업으로 진행됩니다. 기본 개념 학습이 되어 있지 않은 학생은 수강할 수 없습니다.</p>
+        </div>
+      </div>
     </div>
   </div>
   <dl class="subj">
     <dt>학년별 과목 기준</dt>
     <dd><b>고1</b> 공통수학1 · 공통수학2</dd>
-    <dd><b>고2 · 고3</b> 대수 · 미적분Ⅰ · 확률과 통계 · 기하 · 미적분Ⅱ 중 학교에서 배우는 과목</dd>
+    <dd><b>고2 · 고3</b> 대수 · 미적분Ⅰ · 확률과 통계 · 기하 · 미적분Ⅱ 중 학교에서 배우는 과목 및 수능 대비</dd>
   </dl>
   <p class="fine">각 수업 시간대 정원 10명.</p>
   <div class="notice"><span class="badge">안내</span>
