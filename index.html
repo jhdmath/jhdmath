@@ -154,6 +154,7 @@ footer b{color:var(--ink);font-weight:700}
 /* 고정 전화 버튼 (모바일) */
 .call{position:fixed;right:16px;bottom:16px;background:var(--accent);color:var(--on-accent);font-family:var(--sans);font-weight:700;font-size:14px;padding:12px 16px;border-radius:999px;box-shadow:0 4px 14px rgba(0,0,0,.18);z-index:20}
 @media (min-width:721px){.call{display:none}}
+
 </style><style>:root{--accent:#173a59;--ink:#1b2c3d;--mid:#546675;--rule:#d6dfe5;--shade:#f4f7f9;--shade2:#dfe7ec}
 html{scroll-padding-top:156px}body{font-family:var(--sans);font-size:16px;line-height:1.8}button,a{-webkit-tap-highlight-color:transparent}button{font:inherit}a:focus-visible,button:focus-visible,summary:focus-visible{outline:3px solid #5488af;outline-offset:4px}
 .wrap{max-width:1160px;padding-inline:40px}.preview-bar{background:#173a59;color:#fff;padding:9px 28px;display:flex;align-items:center;justify-content:space-between;gap:12px;font-size:12px;min-height:48px}.preview-bar>span{letter-spacing:.12em;opacity:.8}.preview-bar>div{display:flex;gap:8px}.preview-bar a{padding:5px 12px;border-radius:4px;color:#dfeaf1}.preview-bar a[aria-current]{background:white;color:#173a59;font-weight:700}
@@ -219,7 +220,17 @@ ol.rules{display:grid;grid-template-columns:1fr 1fr;gap:16px 40px}ol.rules li{pa
 @media(max-width:760px){.enroll-group{grid-template-columns:1fr;gap:20px;padding:28px 0}.enroll-heading{display:flex;align-items:baseline;gap:12px}.enroll-heading>span{margin:0}.enroll-heading h3{font-size:19px}.enroll-content .subj dd{grid-template-columns:65px 1fr;gap:8px}.enroll-content .plan-example{display:flex;font-size:12px;gap:8px}.enroll-content .plan-example b{display:inline;margin:0}}
 @media(max-width:760px){.past-time .call{display:inline-flex}}
 @media(max-width:360px){.wrap{padding-inline:16px}.schedule-heading h1,.theme-b .schedule-heading h1{font-size:28px}.schedule-heading p{font-size:10px}.plan{padding:14px}.pp,.theme-b .pp{font-size:18px}.hero h2,.theme-b .hero h2{font-size:26px}.plan-example{display:block}.plan-example b{display:block}.preview-bar a{font-size:10px}}
-</style></head><body class="theme-a"><header class="top"><div class="wrap"><a class="brand" href="#time">정형돈수학학원<span>내신 수능 대비</span></a><nav aria-label="주요 메뉴"><a href="#time">시간표·수강료</a><a href="#intro">학원 소개</a><a href="#how">수업 방식</a><a href="#rules">학원 규정</a><a href="#faq">자주 묻는 질문</a><a href="#map">오시는 길</a></nav></div></header><main class="wrap"><section id="time"><div class="eyebrow">전주 인후동 중 · 고등 수학 · 내신 · 수능 대비</div><div class="schedule-heading"><h1>시간표 · 수강료</h1><p>2026년 12월 기준</p></div><div class="plans">
+/* 홈페이지 공유 */
+.header-identity{display:flex;align-items:center;gap:20px;flex:none}
+.share-button{display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:44px;padding:0 13px;border:1px solid var(--rule);border-radius:4px;background:#fff;color:var(--accent);font:600 12px var(--sans);white-space:nowrap;cursor:pointer}
+.share-button svg{width:16px;height:16px;flex:none}
+.share-button:hover{border-color:var(--accent);background:#f5f7fa}
+.share-button:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.share-button:disabled{cursor:wait;opacity:.6}
+.share-status{position:fixed;left:50%;bottom:28px;transform:translateX(-50%);z-index:20;width:max-content;max-width:calc(100% - 32px);padding:10px 16px;border-radius:4px;background:var(--accent);color:#fff;font:500 13px/1.6 var(--sans);text-align:center;pointer-events:none}
+.share-status:empty{display:none}
+@media(max-width:1050px){.top .wrap{display:block;padding-block:12px 0}.header-identity{justify-content:space-between;gap:12px}.header-identity .brand{display:block}.header-identity .brand span{margin-top:4px}nav{gap:20px;overflow-x:auto;font-size:12px;margin-top:8px;scrollbar-width:none}nav::-webkit-scrollbar{display:none}nav a{padding:8px 0 10px;flex:none;min-height:42px}html{scroll-padding-top:130px}}
+</style></head><body class="theme-a"><header class="top"><div class="wrap"><div class="header-identity"><a class="brand" href="#time">정형돈수학학원<span>내신 수능 대비</span></a><button class="share-button" type="button" aria-label="홈페이지 공유"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 16V3m-4 4 4-4 4 4M5 13v7a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-7"/></svg><span>공유</span></button></div><nav aria-label="주요 메뉴"><a href="#time">시간표·수강료</a><a href="#intro">학원 소개</a><a href="#how">수업 방식</a><a href="#rules">학원 규정</a><a href="#faq">자주 묻는 질문</a><a href="#map">오시는 길</a></nav></div></header><main class="wrap"><section id="time"><div class="eyebrow">전주 인후동 중 · 고등 수학 · 내신 · 수능 대비</div><div class="schedule-heading"><h1>시간표 · 수강료</h1><p>2026년 12월 기준</p></div><div class="plans">
     <div class="plan">
       <div class="ph"><span class="pg">중등</span><span class="pf">주 4회</span><span class="pp">월 25만 원</span></div>
       <ul>
@@ -335,7 +346,41 @@ ol.rules{display:grid;grid-template-columns:1fr 1fr;gap:16px 40px}ol.rules li{pa
   전주시 덕진구 견훤로 322, 2층 · 010-7306-8438<br>
   학원 설립·운영 등록번호 제7840호 · 사업자등록번호 537-90-01860<br>
   <a href="https://blog.naver.com/doni8438" target="_blank" rel="noopener">블로그</a> · <a href="https://www.youtube.com/@정형돈수학물리" target="_blank" rel="noopener">유튜브</a> · <a href="https://naver.me/5NMdEa5L" target="_blank" rel="noopener">지도</a>
-</div></footer><a class="call" href="sms:01073068438">상담 문자 ↗</a><script>(() => {
+</div></footer><a class="call" href="sms:01073068438">상담 문자 ↗</a><div class="share-status" role="status" aria-live="polite" aria-atomic="true"></div><script>(() => {
+  const shareButton = document.querySelector('.share-button');
+  const shareStatus = document.querySelector('.share-status');
+  const homepageUrl = 'https://jhdmath.github.io/jhdmath/';
+  let shareNoticeTimer;
+  function shareNotice(message) {
+    clearTimeout(shareNoticeTimer);
+    shareStatus.textContent = message;
+    shareNoticeTimer = setTimeout(() => {shareStatus.textContent = '';}, 4000);
+  }
+  async function copyHomepage() {
+    try {
+      await navigator.clipboard.writeText(homepageUrl);
+      shareNotice('홈페이지 주소가 복사되었습니다.');
+    } catch {
+      window.prompt('아래 홈페이지 주소를 복사해 주세요.', homepageUrl);
+    }
+  }
+  shareButton.addEventListener('click', async () => {
+    shareButton.disabled = true;
+    shareStatus.textContent = '';
+    try {
+      if (typeof navigator.share === 'function') {
+        try {
+          await navigator.share({title:'정형돈수학학원', url:homepageUrl});
+        } catch (error) {
+          if (error.name !== 'AbortError') await copyHomepage();
+        }
+      } else {
+        await copyHomepage();
+      }
+    } finally {
+      shareButton.disabled = false;
+    }
+  });
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
   const enter = element => {
     if (reduce.matches) return;
