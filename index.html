@@ -230,6 +230,76 @@ ol.rules{display:grid;grid-template-columns:1fr 1fr;gap:16px 40px}ol.rules li{pa
 .share-status{position:fixed;left:50%;bottom:28px;transform:translateX(-50%);z-index:20;width:max-content;max-width:calc(100% - 32px);padding:10px 16px;border-radius:4px;background:var(--accent);color:#fff;font:500 13px/1.6 var(--sans);text-align:center;pointer-events:none}
 .share-status:empty{display:none}
 @media(max-width:1050px){.top .wrap{display:block;padding-block:12px 0}.header-identity{justify-content:space-between;gap:12px}.header-identity .brand{display:block}.header-identity .brand span{margin-top:4px}nav{gap:20px;overflow-x:auto;font-size:12px;margin-top:8px;scrollbar-width:none}nav::-webkit-scrollbar{display:none}nav a{padding:8px 0 10px;flex:none;min-height:42px}html{scroll-padding-top:130px}}
+</style><style>
+@media(prefers-reduced-motion:no-preference){
+#time .plan{position:relative;border-top-color:transparent;transition:transform .22s ease,box-shadow .22s ease}
+#time .plan::before{content:"";position:absolute;left:0;top:-2px;right:0;height:2px;background:var(--accent);transform-origin:left;transform:scaleX(1)}
+#time.play-motion .plan::before{animation:draw-line .65s cubic-bezier(.2,.7,.2,1) both;animation-delay:var(--motion-delay)}
+#time.play-motion .plan{animation:card-glow .9s ease both;animation-delay:var(--motion-delay)}
+#time .plan:nth-child(1){--motion-delay:0s}#time .plan:nth-child(2){--motion-delay:.16s}#time .plan:nth-child(3){--motion-delay:.32s}
+@media(hover:hover) and (min-width:761px){#time .plan:hover{transform:translateY(-4px);box-shadow:0 10px 26px #173a5912}}
+@keyframes draw-line{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@keyframes card-glow{0%,100%{background-color:white}35%{background-color:#edf3f8}}
+@media(max-width:760px){#time.play-motion .plan{animation:none}}
+}
+</style><style id="lower-motion">
+@media(prefers-reduced-motion:no-preference){
+.reveal{transform:translateY(14px);transition:opacity .6s ease,transform .6s cubic-bezier(.2,.7,.2,1);transition-delay:var(--reveal-delay,0s)}
+.intro-copy>p{--reveal-delay:.09s}.intro-copy>.cta{--reveal-delay:.16s}.intro-copy>.meta{--reveal-delay:.22s}
+@media(min-width:761px){.methods>.item:nth-child(even){--reveal-delay:.09s}}
+.lv-tabs button{transition:background-color .25s,color .25s,border-color .25s,box-shadow .25s,transform .25s}
+.lv-tabs button[aria-selected=true]{box-shadow:inset 0 -3px 0 #173a59;transform:translateY(-2px)}
+.panel-enter{animation:soft-panel-in .28s ease both}
+@keyframes soft-panel-in{from{opacity:.45;transform:translateY(5px)}to{opacity:1;transform:none}}
+details[open] p{animation:none}
+}
+</style><style id="enrollment-line-motion">
+.enroll-heading>span{display:flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:6px;background:var(--accent);color:#fff;font-size:17px;font-weight:600;margin-bottom:14px;font-variant-numeric:tabular-nums}
+.enroll-heading h3::after{content:'';display:block;width:76px;height:2px;margin-top:15px;background:var(--accent);transform-origin:left}
+.enroll-heading::after{content:'';display:block;width:2px;height:70px;margin:20px 0 0 18px;background:linear-gradient(var(--accent),#cbd8e4);transform-origin:top}
+@media(max-width:760px){.enroll-heading{align-items:flex-start;gap:14px}.enroll-heading>span{flex:none;margin:0}.enroll-heading h3{padding-top:4px}.enroll-heading h3::after{margin-top:12px;width:64px}.enroll-heading::after{display:none}}
+@media(prefers-reduced-motion:no-preference){
+.enroll-heading.motion-ready>span{background:#eef2f6;color:#687888;transition:background-color .45s,color .45s}
+.enroll-heading.motion-ready::after,.enroll-heading.motion-ready h3::after{transform:scale(0)}
+.enroll-heading.motion-seen>span{background:var(--accent);color:#fff;animation:number-mark .75s ease both}
+.enroll-heading.motion-seen h3::after{animation:enroll-underline .9s cubic-bezier(.2,.6,.2,1) .15s both}
+.enroll-heading.motion-seen::after{animation:enroll-guide 1.05s cubic-bezier(.2,.6,.2,1) .25s both}
+#enrollment>.enroll-group:nth-of-type(2) .enroll-heading.motion-ready>span{transition-duration:.8s}
+#enrollment>.enroll-group:nth-of-type(2) .enroll-heading.motion-seen>span{animation-duration:1.15s}
+#enrollment>.enroll-group:nth-of-type(2) .enroll-heading.motion-seen h3::after{animation-duration:1.45s;animation-delay:.3s}
+#enrollment>.enroll-group:nth-of-type(2) .enroll-heading.motion-seen::after{animation-duration:1.65s;animation-delay:.45s}
+
+@keyframes number-mark{0%{transform:scale(1)}40%{transform:scale(1.1);box-shadow:0 0 0 7px #173a5910}100%{transform:scale(1);box-shadow:0 0 0 0 #173a5900}}
+@keyframes enroll-underline{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@keyframes enroll-guide{from{transform:scaleY(0)}to{transform:scaleY(1)}}
+}
+</style><style id="intro-pace-motion">
+#intro{display:grid;grid-template-columns:1fr;gap:34px;align-items:center}
+.intro-copy{min-width:0}.pace-graphic{margin:0;padding:26px 28px;border:1px solid #dce4eb;border-radius:6px;background:#fafcfe;max-width:600px;width:100%;justify-self:start}
+.pace-graphic figcaption{font:500 20px/1.6 var(--sans);letter-spacing:-.025em;color:var(--accent)}.pace-graphic figcaption strong{font-weight:750}
+.learning-paths{display:grid;gap:20px;margin-top:24px}
+#intro .path-need{font:600 12px/1.5 var(--sans);color:#52687b;margin:0 0 8px}
+.path-flow{display:flex;align-items:center;gap:10px}
+.path-step{display:flex;align-items:center;justify-content:center;flex:1;min-width:0;min-height:40px;padding:8px 6px;border-radius:4px;font:600 12px/1.5 var(--sans);text-align:center;word-break:keep-all;border:1px solid #d5e0e9}
+.path-first{background:#e8f0f6;color:var(--accent)}.path-next{background:var(--accent);color:white;border-color:var(--accent)}
+.path-link{flex:none;width:24px;height:12px;position:relative;color:var(--accent)}
+.path-link::before{content:'';position:absolute;left:0;right:1px;top:5px;height:2px;background:currentColor;transform-origin:left}
+.path-link::after{content:'';position:absolute;right:0;top:2px;width:6px;height:6px;border-top:2px solid currentColor;border-right:2px solid currentColor;transform:rotate(45deg)}
+#intro .pace-caption{font:400 12px/1.8 var(--sans);color:#657789;margin:24px 0 0;max-width:none}
+@media(min-width:1050px){#intro{grid-template-columns:minmax(0,1.55fr) minmax(0,1fr);gap:46px}.hero h2{font-size:clamp(30px,3vw,40px)}.pace-graphic{justify-self:end}}
+@media(max-width:760px){#intro{gap:28px}.pace-graphic{padding:22px}.pace-graphic figcaption{font-size:19px}.path-flow{gap:8px}.path-link{width:20px}}
+@media(prefers-reduced-motion:no-preference){
+.pace-ready .path-first,.pace-ready .path-next{background:white;color:var(--accent);border-color:#d5e0e9}
+.pace-ready .path-link::before{transform:scaleX(0)}.pace-ready .path-link::after{opacity:.2}
+.pace-running .path-first{animation:path-first-on .55s ease var(--row-delay) both}
+.pace-running .path-link::before{animation:path-line-on .45s ease calc(var(--row-delay) + .35s) both}
+.pace-running .path-link::after{animation:path-arrow-on .3s ease calc(var(--row-delay) + .6s) both}
+.pace-running .path-next{animation:path-next-on .55s ease calc(var(--row-delay) + .75s) both}
+@keyframes path-first-on{from{background:white}to{background:#e8f0f6}}
+@keyframes path-line-on{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@keyframes path-arrow-on{from{opacity:.2}to{opacity:1}}
+@keyframes path-next-on{from{background:white;color:var(--accent);border-color:#d5e0e9}to{background:var(--accent);color:white;border-color:var(--accent)}}
+}
 </style></head><body class="theme-a"><header class="top"><div class="wrap"><div class="header-identity"><a class="brand" href="#time">정형돈수학학원<span>내신 수능 대비</span></a><button class="share-button" type="button" aria-label="홈페이지 공유"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 16V3m-4 4 4-4 4 4M5 13v7a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-7"/></svg><span>공유</span></button></div><nav aria-label="주요 메뉴"><a href="#time">시간표·수강료</a><a href="#intro">학원 소개</a><a href="#how">수업 방식</a><a href="#rules">학원 규정</a><a href="#faq">자주 묻는 질문</a><a href="#map">오시는 길</a></nav></div></header><main class="wrap"><section id="time"><div class="eyebrow">전주 인후동 중 · 고등 수학 · 내신 · 수능 대비</div><div class="schedule-heading"><h1>시간표 · 수강료</h1><p>2026년 12월 기준</p></div><div class="plans">
     <div class="plan">
       <div class="ph"><span class="pg">중등</span><span class="pf">주 4회</span><span class="pp">월 25만 원</span></div>
@@ -266,7 +336,7 @@ ol.rules{display:grid;grid-template-columns:1fr 1fr;gap:16px 40px}ol.rules li{pa
             <dd>대수 · 미적분 · 확률과 통계</dd>
             <dt>교재 및 수업</dt>
             <dd><span class="copy-lines"><span>한완수 교재로 수업합니다.</span><span>수업 시간에는 한완기와 이해원 N제로 문제 풀이를 진행합니다.</span><span>7월 이후에는 이해원 모의고사로 실전 대비를 합니다.</span></span></dd>
-          </dl></div></div><div class="enroll-group"><div class="enroll-heading"><span>03</span><h3>공통 수강 안내</h3></div><dl class="enroll-content common-info"><dt>수업 정원</dt><dd>각 수업 시간대 정원 10명.</dd><dt>시간 조정 안내</dt><dd><span class="copy-lines"><span>학생마다 각자의 진도에 맞춰 수업하는 개별 진도 방식이므로,</span><span>정규 시간대에 참여하기 어려운 경우</span><span>상담 후 다른 학년 시간대에서도 수업할 수 있습니다.</span></span></dd><dt>학년별 수업 적용</dt><dd><p>고등 선행을 원하는 중학생은 고1 시간표와 수강료가 적용됩니다.</p><p>중등 시간대에는 기초가 부족한 고등학생을 위한 중등 · 고등 기초 수업도 진행합니다.</p></dd><dt>교재비</dt><dd>교재는 수강료에 포함되지 않습니다. 필요한 교재를 안내해 드리면 개별 구매합니다.</dd></dl></div></section><div class="hero" id="intro">
+          </dl></div></div><div class="enroll-group"><div class="enroll-heading"><span>03</span><h3>공통 수강 안내</h3></div><dl class="enroll-content common-info"><dt>수업 정원</dt><dd>각 수업 시간대 정원 10명.</dd><dt>시간 조정 안내</dt><dd><span class="copy-lines"><span>학생마다 각자의 진도에 맞춰 수업하는 개별 진도 방식이므로,</span><span>정규 시간대에 참여하기 어려운 경우</span><span>상담 후 다른 학년 시간대에서도 수업할 수 있습니다.</span></span></dd><dt>학년별 수업 적용</dt><dd><p>고등 선행을 원하는 중학생은 고1 시간표와 수강료가 적용됩니다.</p><p>중등 시간대에는 기초가 부족한 고등학생을 위한 중등 · 고등 기초 수업도 진행합니다.</p></dd><dt>교재비</dt><dd>교재는 수강료에 포함되지 않습니다. 필요한 교재를 안내해 드리면 개별 구매합니다.</dd></dl></div></section><div class="hero" id="intro"><div class="intro-copy">
 
   <h2>육군사관학교 출신 원장이<br>학생별 진도에 맞춰 직접 지도합니다</h2>
   <p>학생의 현재 수준과 학습 목표를 바탕으로 수업 순서와 속도를 정합니다.</p>
@@ -276,7 +346,15 @@ ol.rules{display:grid;grid-template-columns:1fr 1fr;gap:16px 40px}ol.rules li{pa
     <dt>위치</dt><dd>전주시 덕진구 견훤로 322, 2층</dd>
     <dt>주차</dt><dd>건물 앞 가능</dd>
   </dl>
-</div><section id="about">
+</div><figure class="pace-graphic" aria-labelledby="pace-title">
+<figcaption id="pace-title">학생마다 필요한<br><strong>공부가 다릅니다</strong></figcaption>
+<div class="learning-paths">
+<div class="learning-path" style="--row-delay:0s"><p class="path-need">개념이 부족하면</p><div class="path-flow"><span class="path-step path-first">개념 이해</span><span class="path-link" aria-hidden="true"></span><span class="path-step path-next">기본 문제</span></div></div>
+<div class="learning-path" style="--row-delay:.7s"><p class="path-need">적용이 어렵다면</p><div class="path-flow"><span class="path-step path-first">유형 연습</span><span class="path-link" aria-hidden="true"></span><span class="path-step path-next">오답 점검</span></div></div>
+<div class="learning-path" style="--row-delay:1.4s"><p class="path-need">심화가 필요하면</p><div class="path-flow"><span class="path-step path-first">고난도 문제</span><span class="path-link" aria-hidden="true"></span><span class="path-step path-next">질문·해설</span></div></div>
+</div>
+<p class="pace-caption">상담과 수업 중 확인한 수준에 맞춰<br>진도·숙제·테스트를 정합니다.</p>
+</figure></div><section id="about">
   <div class="sec"><span class="badge">학원 소개</span><h2>왜 학생마다 따로 가르치는가</h2></div><div class="about-copy">
   <p class="lead">같은 칠판 수업을 들어도 어떤 학생은 그대로 따라오지만, 어떤 학생에게는 여러 명이 함께 가는 속도 자체가 버겁습니다. 그래서 저희 학원은 학원의 체계적인 관리와 개인 지도 방식의 장점을 함께 살렸습니다. 학생마다 진도와 숙제, 테스트를 따로 정하고, 원장이 직접 한 명씩 마주 앉아 가르칩니다.</p>
   <p>이 학원에 다니는 학생은 누구나 존중받아야 합니다. 진도가 느리든 빠르든 한 명도 소외되지 않게 가르칩니다. 학생의 속도는 존중하되, 수업에 성실히 참여할 수 있도록 책임 있는 학습 태도도 함께 지도합니다.</p>
@@ -425,7 +503,7 @@ ol.rules{display:grid;grid-template-columns:1fr 1fr;gap:16px 40px}ol.rules li{pa
   });
   // Primary timetable and fees always remain visible, without an entrance delay.
   if ('IntersectionObserver' in window && !reduce.matches) {
-    const targets = document.querySelectorAll('.hero, #about > *, .methods > .item, .books, #rules > *, #faq > *, #map > *');
+    const targets = document.querySelectorAll('#enrollment .sec, .intro-copy > *, #about > .sec, #about .about-copy > p, #how > .sec, .methods > .item, .books, #rules > .sec, #rules .rules > li, #faq > .sec, #faq details, #map > *');
     const observer = new IntersectionObserver(entries => {
       entries.forEach(entry => {
         if (entry.isIntersecting) { entry.target.classList.add('visible'); observer.unobserve(entry.target); }
@@ -451,5 +529,65 @@ ol.rules{display:grid;grid-template-columns:1fr 1fr;gap:16px 40px}ol.rules li{pa
   }
   window.addEventListener('scroll', () => {if (!scheduled) {scheduled = true; requestAnimationFrame(updateNav);}}, {passive:true});
   updateNav();
+})();
+</script><script>
+function replayMotion(){const section=document.querySelector('#time');section.classList.remove('play-motion');void section.offsetWidth;section.classList.add('play-motion')}
+if(document.fonts)document.fonts.ready.then(()=>requestAnimationFrame(replayMotion));else replayMotion();
+</script><script>
+(()=>{
+ const reduced=matchMedia('(prefers-reduced-motion: reduce)');
+ const active=new WeakMap();
+ document.querySelectorAll('#faq details').forEach(details=>{
+  details.querySelector('summary').addEventListener('click',event=>{
+   if(reduced.matches || !details.animate) return;
+   event.preventDefault();
+   const previous=active.get(details);
+   const opening=previous ? !previous.opening : !details.open;
+   const start=details.getBoundingClientRect().height;
+   if(previous) previous.animation.cancel();
+   details.style.height='';details.style.overflow='';
+   let end;
+   if(opening){details.open=true;end=details.getBoundingClientRect().height;}
+   else{details.open=false;end=details.getBoundingClientRect().height;details.open=true;}
+   details.style.overflow='hidden';
+   const animation=details.animate([{height:start+'px'},{height:end+'px'}],{duration:260,easing:'cubic-bezier(.2,.7,.2,1)'});
+   active.set(details,{animation,opening});
+   animation.onfinish=()=>{details.open=opening;details.style.overflow='';active.delete(details);};
+  });
+ });
+})();
+</script><script>
+(()=>{
+const reduced=matchMedia('(prefers-reduced-motion: reduce)');
+if(reduced.matches || !('IntersectionObserver' in window)) return;
+const headings=[...document.querySelectorAll('.enroll-heading')];
+let observer;
+function observeHeadings(){
+ if(observer) observer.disconnect();
+ if(reduced.matches) return;
+ // Trigger when the title reaches the middle of this frame's viewport.
+ const bottomInset=Math.round(window.innerHeight*.5);
+ observer=new IntersectionObserver(entries=>{entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('motion-seen');observer.unobserve(entry.target);}});},{threshold:0,rootMargin:'0px 0px -'+bottomInset+'px 0px'});
+ headings.forEach(heading=>{if(!heading.classList.contains('motion-seen')) observer.observe(heading);});
+}
+headings.forEach(heading=>heading.classList.add('motion-ready'));
+observeHeadings();
+window.addEventListener('resize',observeHeadings);
+reduced.addEventListener('change',event=>{if(event.matches){observer.disconnect();headings.forEach(heading=>heading.classList.remove('motion-ready','motion-seen'));}else{headings.forEach(heading=>heading.classList.add('motion-ready'));observeHeadings();}});
+})();
+</script><script>
+(()=>{
+const figure=document.querySelector('.pace-graphic');
+const reduced=matchMedia('(prefers-reduced-motion: reduce)');
+let observer;
+function watch(){
+ if(observer)observer.disconnect();
+ if(reduced.matches||!('IntersectionObserver' in window)||figure.classList.contains('pace-running'))return;
+ figure.classList.add('pace-ready');
+ observer=new IntersectionObserver(entries=>{if(entries.some(e=>e.isIntersecting)){figure.classList.add('pace-running');observer.disconnect();}},{rootMargin:'0px 0px -'+Math.round(innerHeight*.5)+'px 0px',threshold:0});
+ observer.observe(figure);
+}
+watch();window.addEventListener('resize',watch);
+reduced.addEventListener('change',()=>{if(reduced.matches){if(observer)observer.disconnect();figure.classList.remove('pace-ready','pace-running');}else watch();});
 })();
 </script></body></html>
