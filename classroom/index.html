@@ -8,6 +8,7 @@
 @media(max-width:440px){.catalog-section{padding:12px;gap:10px;border-radius:13px}.course-catalog{gap:12px}.course-row{gap:7px}.course-row .course-tile{padding:11px 12px;min-height:108px}.course-row[style="--columns:3"] .course-tile{padding-inline:8px}.course-row[style="--columns:3"] .tile-heading h3{font-size:17px;line-height:1.45}.tile-heading h3{font-size:20px}.tile-open{display:none}.tile-book{font-size:12px}.recent{padding:14px;gap:10px}.recent button{white-space:nowrap;padding-inline:10px}.video-count{font-size:12px}}
 .resource-board{margin:20px 0 24px;padding:18px 20px;background:#f4f7fa;border:1px solid var(--line);border-radius:12px}.resource-board h2{font-size:18px}.resource-row{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:13px 0;border-bottom:1px solid var(--line)}.resource-row:last-child{border-bottom:0;padding-bottom:0}.resource-row>div{min-width:0}.resource-row strong{display:block;overflow-wrap:anywhere}.resource-row small{display:block;overflow-wrap:anywhere}.file-download{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:8px 14px;border:1px solid var(--navy);border-radius:8px;text-decoration:none;white-space:nowrap;background:var(--navy);color:#fff}.resource-empty{font-size:14px;color:var(--muted);margin-top:10px}@media(max-width:440px){.resource-board{padding:14px}.resource-row{align-items:flex-start;gap:10px}.file-download{padding-inline:10px;font-size:14px}.resource-row .actions{justify-content:flex-start}}
 @media(max-width:440px){.dialog-head h2{min-width:0;overflow-wrap:anywhere}.dialog-head>button{flex-shrink:0;white-space:nowrap}.player-controls{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));align-items:center}.player-controls button,.player-controls a{white-space:nowrap}.player-controls a{text-align:center;font-size:14px}}
+.upload-item{padding:12px 0;border-bottom:1px solid var(--line);overflow-wrap:anywhere}.upload-item:last-child{border-bottom:0}#resourceQueue{display:grid;gap:8px}
 </style></head><body><div id="preview"></div><header><div class="shell head"><a class="brand" href="#" id="home">정형돈 수학학원<small>인강 숙제</small></a><nav class="nav" aria-label="주 메뉴"><button id="all" hidden>과목 목록</button><button id="share">공유</button></nav></div></header><main class="shell"><div id="error" role="alert"></div><div id="app"><p class="loading" role="status">강의 목록을 불러오고 있습니다.</p></div></main><footer><div class="shell foot"><span>정형돈 수학학원</span><div class="actions"><a href="https://jhdmath.github.io/jhdmath/" target="_blank" rel="noopener noreferrer">학원 홈페이지</a></div></div></footer><div id="status" class="status" role="status"></div><dialog id="modal" aria-labelledby="dialogTitle"></dialog><script>window.JHD_CONFIG={"mode":"student","api":"https://script.google.com/macros/s/AKfycbw-2a4CyO29cq4Brxd_3oCrduDaWsrXjt40Ku9UjkNvydHMOLO3l8_gK-ILIW7IyWOBfA/exec","publicUrl":"https://jhdmath.github.io/jhdmath/classroom/"};</script><script>
 'use strict';
 const $=s=>document.querySelector(s),esc=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -94,32 +95,36 @@ function edit(k,id,unitId){const old=data[k]?.find(x=>x.id===id),v=old||{},label
  let picked=[...(v.lessonIds||[])];if(k==='assignments'){const draw=()=>{const q=$('#assignmentSearch').value;$('#picked').textContent='선택 '+picked.length+'개';$('#checklist').innerHTML=publicLessons().filter(l=>!q||matches(l,q)).map(l=>`<label><input type="checkbox" value="${esc(l.id)}" ${picked.includes(l.id)?'checked':''}><span>${esc(courseName(l.courseId))} · ${esc(titleOf(l))}<small>${esc(l.pages)}</small></span></label>`).join('');$('#checklist').onchange=e=>{if(e.target.checked)picked.push(e.target.value);else picked=picked.filter(x=>x!==e.target.value);$('#picked').textContent='선택 '+picked.length+'개';};};$('#assignmentSearch').oninput=draw;draw();}
  $('#editForm').onsubmit=async e=>{e.preventDefault();if(busy)return;const form=Object.fromEntries(new FormData(e.target)),next=structuredClone(data);if(k==='rules')next.rules=form.rules.split('\n').map(x=>x.trim()).filter(Boolean);else{let item={...v,...form,id:id||crypto.randomUUID(),hidden:v.hidden||false,deletedAt:v.deletedAt||''};if(['courses','units','lessons'].includes(k))item.sortOrder=v.sortOrder??Math.max(-1,...data[k].map(x=>x.sortOrder))+1;if(['units','lessons'].includes(k))item.courseId=adminCourse;if(k==='assignments'){if(!picked.length){message('영상을 한 개 이상 선택해 주세요.');return;}item.lessonIds=picked;}if(id)next[k]=next[k].map(x=>x.id===id?item:x);else next[k].push(item);}if(await save(next)){closeDialog();render();}};}
 const fileAccept='.pdf,.hwp,.hwpx,.doc,.docx,.ppt,.pptx,.xls,.xlsx,.zip,.png,.jpg,.jpeg';
-function uploadResourceDialog(){
- const courseId=adminCourse,uploadId=crypto.randomUUID();let uploadState,selectedFile;
- openDialog('교재 파일 올리기',`<form class="form" id="resourceForm"><p class="meta">${esc(courseName(courseId))}</p><label>교재 파일<input id="resourceFile" type="file" accept="${fileAccept}" required></label><label>학생에게 표시할 이름<input name="title" id="resourceTitle" required maxlength="300" placeholder="예: 공통수학1 교재"></label><p class="meta">PDF·한글·Office·ZIP·이미지. 앱의 파일 용량 제한 없이 올릴 수 있습니다. 올린 파일은 학생이 로그인 없이 내려받을 수 있습니다.</p><p id="uploadProgress" role="status"></p><div class="actions"><button type="button" data-close>취소</button><button type="submit" class="primary">파일 올리기</button></div></form>`);
- $('#resourceFile').onchange=e=>{uploadState=null;selectedFile=null;const f=e.target.files[0];if(f&&!$('#resourceTitle').value)$('#resourceTitle').value=f.name.replace(/\.[^.]+$/,'');};
- $('#resourceForm').onsubmit=async e=>{e.preventDefault();if(busy)return;const file=$('#resourceFile').files[0],title=$('#resourceTitle').value.trim();if(!file||!title)return;
- if(file.size<1){$('#uploadProgress').textContent='내용이 있는 파일을 선택해 주세요.';return;}
- if(!fileAccept.split(',').some(ext=>file.name.toLowerCase().endsWith(ext))){$('#uploadProgress').textContent='지원하는 파일 형식을 선택해 주세요.';return;}
- const r=await runTask(async()=>{
- if(demo)throw new Error('파일 업로드는 게시된 관리자 화면에서 이용해 주세요.');
- const call=async(path,options={})=>{const response=await fetch('/api/upload/'+path,{method:'POST',credentials:'same-origin',...options});let result;try{result=await response.json();}catch{throw new Error('업로드 연결을 확인해 주세요.');}if(!response.ok||!result.ok)throw new Error(result.error||'파일 전송이 중단됐습니다.');return result;};
- $('#uploadProgress').textContent='업로드를 준비하고 있습니다.';
- if(!uploadState||selectedFile!==file){const meta={id:uploadId,courseId,title,fileName:file.name,size:file.size};uploadState=await call('start',{headers:{'Content-Type':'application/json'},body:JSON.stringify(meta)});uploadState.nextOffset=0;selectedFile=file;}
- const headers={'X-Upload-Token':uploadState.token};
- if(uploadState.nextOffset&&!uploadState.fileId)Object.assign(uploadState,await call('status',{headers}));
+async function uploadResourceFile(item,courseId,call,progress){
+ const file=item.file;
+ if(!item.state){item.state=await call('start',{headers:{'Content-Type':'application/json'},body:JSON.stringify({id:item.id,courseId,title:item.title,fileName:file.name,size:file.size})});item.state.nextOffset=0;}
+ const state=item.state,headers={'X-Upload-Token':state.token};
+ if(state.nextOffset&&!state.fileId)Object.assign(state,await call('status',{headers}));
  let failures=0;
- while(uploadState.nextOffset<file.size&&!uploadState.fileId){
-  const start=uploadState.nextOffset,end=Math.min(start+uploadState.chunkBytes,file.size);
-  $('#uploadProgress').textContent='업로드 중 '+Math.floor(start/file.size*100)+'% · '+fileSize(start)+' / '+fileSize(file.size);
-  try{const result=await call('chunk',{headers:{...headers,'Content-Type':'application/octet-stream','Content-Range':`bytes ${start}-${end-1}/${file.size}`},body:file.slice(start,end)});if(result.nextOffset<=start&&!result.fileId)throw new Error('파일 전송이 진행되지 않았습니다.');Object.assign(uploadState,result);failures=0;}
-  catch(e){if(++failures>3)throw e;Object.assign(uploadState,await call('status',{headers}));}
+ while(state.nextOffset<file.size&&!state.fileId){
+  const start=state.nextOffset,end=Math.min(start+state.chunkBytes,file.size);progress('업로드 중 '+Math.floor(start/file.size*100)+'% · '+fileSize(start)+' / '+fileSize(file.size));
+  try{const result=await call('chunk',{headers:{...headers,'Content-Type':'application/octet-stream','Content-Range':`bytes ${start}-${end-1}/${file.size}`},body:file.slice(start,end)});if(result.nextOffset<=start&&!result.fileId)throw new Error('파일 전송이 진행되지 않았습니다.');Object.assign(state,result);failures=0;}
+  catch(e){if(++failures>3)throw e;Object.assign(state,await call('status',{headers}));}
  }
- if(!uploadState.fileId){Object.assign(uploadState,await call('status',{headers}));if(!uploadState.fileId)throw new Error('Drive에서 파일 전송 완료를 확인하고 있습니다. 잠시 후 파일 올리기를 다시 누르면 이어서 확인합니다.');}
- $('#uploadProgress').textContent='업로드 100% · 교재 목록에 등록하고 있습니다.';
- return (await call('finish',{headers:{...headers,'Content-Type':'application/json'},body:JSON.stringify({fileId:uploadState.fileId})})).result;
- });
- if(r){data=r.data;revision=r.revision;closeDialog();render();message('교재 파일을 올렸습니다.');}else $('#uploadProgress').textContent='업로드하지 못했습니다. 오류 내용을 확인해 주세요.';
+ if(!state.fileId){Object.assign(state,await call('status',{headers}));if(!state.fileId)throw new Error('Drive에서 전송 완료를 확인 중입니다. 다시 올리기를 눌러 주세요.');}
+ progress('전송 100% · 교재 목록에 등록 중');
+ return (await call('finish',{headers:{...headers,'Content-Type':'application/json'},body:JSON.stringify({fileId:state.fileId})})).result;
+}
+async function uploadResourceBatch(queue,courseId,call,update,registered){
+ for(const item of queue){if(item.done)continue;try{update(item,'업로드 준비 중');const result=await uploadResourceFile(item,courseId,call,text=>update(item,text));registered(result);item.done=true;update(item,'완료');}catch(e){update(item,'실패: '+e.message);}}
+ return queue.filter(item=>item.done).length;
+}
+function uploadResourceDialog(){
+ const courseId=adminCourse;let queue=[];
+ openDialog('교재 파일 올리기',`<form class="form" id="resourceForm"><p class="meta">${esc(courseName(courseId))}</p><label>교재 파일 · 여러 개 선택 가능<input id="resourceFile" type="file" accept="${fileAccept}" multiple required></label><div id="resourceQueue"></div><p class="meta">파일별 표시 이름을 수정할 수 있습니다. PDF·한글·Office·ZIP·이미지. 앱의 파일 용량 제한 없이 올릴 수 있습니다. 학생은 로그인 없이 내려받을 수 있습니다.</p><p id="uploadProgress" role="status"></p><div class="actions"><button type="button" data-close>닫기</button><button id="uploadSubmit" type="submit" class="primary">선택한 파일 올리기</button></div></form>`);
+ const status=(item,text)=>{item.status=text;$('#resourceStatus'+queue.indexOf(item)).textContent=text;};
+ $('#resourceFile').onchange=e=>{queue=Array.from(e.target.files).map(file=>({id:crypto.randomUUID(),file,title:file.name.replace(/\.[^.]+$/,''),done:false}));$('#resourceQueue').innerHTML=queue.map((item,i)=>`<div class="upload-item"><p class="meta">${esc(item.file.name)} · ${fileSize(item.file.size)}</p><label>학생에게 표시할 이름 · ${i+1}<input id="resourceTitle${i}" required maxlength="300" value="${esc(item.title)}"></label><p class="meta" id="resourceStatus${i}" role="status">대기</p></div>`).join('');$('#uploadProgress').textContent=queue.length+'개 파일 선택';$('#uploadSubmit').textContent='선택한 파일 올리기';};
+ $('#resourceForm').onsubmit=async e=>{e.preventDefault();if(busy||!queue.length)return;
+ let invalid=false;queue.forEach((item,i)=>{if(item.done)return;if(!item.state)item.title=$('#resourceTitle'+i).value.trim();if(!item.title||item.title.length>300||item.file.size<1||!fileAccept.split(',').some(ext=>item.file.name.toLowerCase().endsWith(ext))){status(item,'표시 이름과 지원 파일 형식을 확인해 주세요.');invalid=true;}});if(invalid)return;
+ $('#resourceFile').disabled=true;queue.forEach((_,i)=>$('#resourceTitle'+i).disabled=true);
+ const completed=await runTask(async()=>{if(demo)throw new Error('게시된 관리자 화면에서 이용해 주세요.');const call=async(path,options={})=>{const response=await fetch('/api/upload/'+path,{method:'POST',credentials:'same-origin',...options});let result;try{result=await response.json();}catch{throw new Error('업로드 연결을 확인해 주세요.');}if(!response.ok||!result.ok)throw new Error(result.error||'파일 전송이 중단됐습니다.');return result;};return uploadResourceBatch(queue,courseId,call,(item,text)=>{status(item,text);$('#uploadProgress').textContent=(queue.indexOf(item)+1)+' / '+queue.length+' · '+item.file.name;},result=>{data=result.data;revision=result.revision;});});
+ if(completed===queue.length){closeDialog();render();message(queue.length+'개 교재 파일을 올렸습니다.');return;}
+ $('#resourceFile').disabled=false;queue.forEach((item,i)=>$('#resourceTitle'+i).disabled=Boolean(item.state||item.done));$('#uploadProgress').textContent=queue.filter(item=>item.done).length+' / '+queue.length+'개 완료. 실패한 파일은 다시 올리기로 이어서 시도할 수 있습니다.';$('#uploadSubmit').textContent='실패한 파일 다시 올리기';
  };
 }
 function confirmAction(title,text,action){openDialog(title,`<p>${esc(text)}</p><div class="actions" style="margin-top:20px"><button data-close>취소</button><button class="primary" id="confirmAction">확인</button></div>`);$('#confirmAction').onclick=async()=>{if(busy)return;if(await action()){closeDialog();render();}};}
