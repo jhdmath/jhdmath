@@ -115,6 +115,7 @@ function uploadResourceDialog(){
   try{const result=await call('chunk',{headers:{...headers,'Content-Type':'application/octet-stream','Content-Range':`bytes ${start}-${end-1}/${file.size}`},body:file.slice(start,end)});if(result.nextOffset<=start&&!result.fileId)throw new Error('파일 전송이 진행되지 않았습니다.');Object.assign(uploadState,result);failures=0;}
   catch(e){if(++failures>3)throw e;Object.assign(uploadState,await call('status',{headers}));}
  }
+ if(!uploadState.fileId){Object.assign(uploadState,await call('status',{headers}));if(!uploadState.fileId)throw new Error('Drive에서 파일 전송 완료를 확인하고 있습니다. 잠시 후 파일 올리기를 다시 누르면 이어서 확인합니다.');}
  $('#uploadProgress').textContent='업로드 100% · 교재 목록에 등록하고 있습니다.';
  return (await call('finish',{headers:{...headers,'Content-Type':'application/json'},body:JSON.stringify({fileId:uploadState.fileId})})).result;
  });
